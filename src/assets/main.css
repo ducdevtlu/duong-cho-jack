@@ -3,3 +3,26 @@
 .text-main {
     color: var(--main-color);
 }
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+button {
+    padding: 12px 18px;
+    color: #ffffff;
+    text-transform: uppercase;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--main-color);
+}
+
+.form-input .v-input__control .v-field--active {
+    outline: none;
+}
+
+.form-input .v-input__control .v-field .v-field__field input{
+    padding: 12px;
+    height: 44px;
+    min-height: unset;
+}

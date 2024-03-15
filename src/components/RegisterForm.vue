@@ -50,6 +50,7 @@ onMounted(() => {
 
 <template>
   <div class="form-register-wrapper">
+    <h3 class="form-register-title text-uppercase text-main text-bold">Đăng ký tài khoản</h3>
     <v-form>
       <div class="form-row">
         <div class="form-group">
@@ -165,5 +166,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+.form-register-title {
+  font-size: 1.5625rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
 </style>

@@ -17,40 +17,72 @@ const login = () => {
 
 <template>
   <div class="form-login-wrapper">
-    <h2 class="form-title">Đăng nhập ngay</h2>
-    <v-form>
-      <div class="form-group">
+    <h3 class="form-title text-uppercase text-bold">Đăng nhập ngay</h3>
+    <v-form class="form-login-container">
+      <div class="form-group form-group--account">
         <label class="form-label">Số điện thoại hoặc email</label>
         <v-text-field
+            class="form-input"
             v-model="form.account"
             required
             placeholder="Nhập số điện thoại hoặc email..."
             variant="outlined"
+            hide-details="auto"
         ></v-text-field>
       </div>
-      <div class="form-group">
+      <div class="form-group form-group--password">
         <label class="form-label">Mật khẩu</label>
         <v-text-field
+            class="form-input"
             v-model="form.password"
             required
             type="password"
             placeholder="Nhập mật khẩu..."
             variant="outlined"
+            hide-details="auto"
+            height="44px"
         ></v-text-field>
       </div>
-      <v-btn
-          @click="login"
-          color="primary"
-      >
-        Login
-      </v-btn>
+      <button class="btn-login" @click="login">
+        Đăng nhập
+      </button>
     </v-form>
-    <div>
-      <span class="forgot-password">Quên mật khẩu?</span>
+    <div class="d-flex w-100 justify-end mt-4 text-white">
+      <span class="forgot-password">Quên mật khẩu</span>
     </div>
   </div>
 </template>
 
 <style scoped>
+.form-login-wrapper {
+  width: 75%;
+  padding: 4rem 0 12.5rem;
+}
 
+.form-login-container {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 1.75rem;
+  display: flex;
+  column-gap: 1rem;
+  align-items: flex-end;
+}
+
+.form-title {
+  font-size: 1.125rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.btn-login {
+  height: 44px;
+}
+
+.form-group--account {
+  width: 45%;
+}
+
+.form-group--password {
+  width: 35%;
+}
 </style>
