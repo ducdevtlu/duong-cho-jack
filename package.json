@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mdi/js": "^7.4.47",
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/font": "^7.4.47",
+    "@mdi/light-js": "^0.2.63",
     "axios": "^1.6.7",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5",
+    "vue-slick-carousel": "^1.0.6",
     "vuetify": "^3.5.9"
   },
   "devDependencies": {

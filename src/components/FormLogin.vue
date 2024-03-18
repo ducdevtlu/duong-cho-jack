@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import { mdiEye } from '@mdi/js'
+
 const form = ref({
   account: '',
   password: ''
 })
+
+const isShowPassword = ref(false)
 
 const login = () => {
   axios.post('/login', form.value).then((response) => {
@@ -18,7 +20,7 @@ const login = () => {
 <template>
   <div class="form-login-wrapper">
     <h3 class="form-title text-uppercase text-bold">Đăng nhập ngay</h3>
-    <v-form class="form-login-container">
+    <v-form class="form-login-container" @submit.prevent="login">
       <div class="form-group form-group--account">
         <label class="form-label">Số điện thoại hoặc email</label>
         <v-text-field
@@ -36,14 +38,16 @@ const login = () => {
             class="form-input"
             v-model="form.password"
             required
-            type="password"
+            :type="isShowPassword ? 'text' : 'password'"
             placeholder="Nhập mật khẩu..."
             variant="outlined"
+            :append-inner-icon="isShowPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
             hide-details="auto"
             height="44px"
+            @click:append-inner="isShowPassword = !isShowPassword"
         ></v-text-field>
       </div>
-      <button class="btn-login" @click="login">
+      <button class="btn-login">
         Đăng nhập
       </button>
     </v-form>

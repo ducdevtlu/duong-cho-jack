@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 :root {
   --main-color: #DCA245;
 }
@@ -12,9 +14,13 @@ a {
     text-decoration: none;
 }
 
-body {
+html {
     font-size: 16px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: #000000;
     line-height: 1.5;
+}
+
+ul li {
+   list-style: none;
 }

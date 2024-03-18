@@ -8,15 +8,17 @@ const form = ref({
   password: '',
   confirm_password: '',
   address: '',
-  ward_id: '',
-  district_id: '',
-  province_id: ''
+  ward_id: null,
+  district_id: null,
+  province_id: null
 })
 
 const confirmSecurity = ref(false)
 const provinces = ref([])
 const districts = ref([])
 const wards = ref([])
+const isShowPassword = ref(false)
+const isShowConfirmPassword = ref(false)
 
 const getProvinces = () => {
   axios.get('/provinces').then((response) => {
@@ -54,21 +56,23 @@ onMounted(() => {
     <v-form>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Tên cửa hàng</label>
+          <label class="form-label require">Tên cửa hàng</label>
           <v-text-field
               v-model="form.store_name"
               required
               placeholder="Nhập tên cửa hàng..."
               variant="outlined"
+              hide-details
           ></v-text-field>
         </div>
         <div class="form-group">
-          <label class="form-label">Số điện thoại</label>
+          <label class="form-label require">Số điện thoại</label>
           <v-text-field
               v-model="form.phone_number"
               required
               placeholder="Nhập số điện thoại"
               variant="outlined"
+              hide-details
           ></v-text-field>
         </div>
         <div class="form-group">
@@ -78,28 +82,35 @@ onMounted(() => {
               required
               placeholder="Nhập email..."
               variant="outlined"
+              hide-details
           ></v-text-field>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Mật khẩu</label>
+          <label class="form-label require">Mật khẩu</label>
           <v-text-field
               v-model="form.password"
               required
-              type="password"
+              :type="isShowPassword ? 'text': 'password'"
               placeholder="Nhập mật khẩu..."
               variant="outlined"
+              hide-details="auto"
+              :append-inner-icon="isShowPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+              @click:append-inner="isShowPassword = !isShowPassword"
           ></v-text-field>
         </div>
         <div class="form-group">
-          <label class="form-label">Xác nhận mật khẩu</label>
+          <label class="form-label require">Xác nhận mật khẩu</label>
           <v-text-field
               v-model="form.confirm_password"
               required
-              type="password"
+              :type="isShowConfirmPassword ? 'text': 'password'"
               placeholder="Xác nhận mật khẩu..."
               variant="outlined"
+              hide-details="auto"
+              :append-inner-icon="isShowConfirmPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+              @click:append-inner="isShowConfirmPassword = !isShowConfirmPassword"
           ></v-text-field>
         </div>
       </div>
@@ -111,6 +122,7 @@ onMounted(() => {
               required
               placeholder="Nhập số nhà, tòa nhà, tên đường"
               variant="outlined"
+              hide-details
           ></v-text-field>
         </div>
       </div>
@@ -123,8 +135,10 @@ onMounted(() => {
               required
               placeholder="Chọn Phường/Xã"
               variant="outlined"
-              item-text="name"
+              hide-details
+              item-title="name"
               item-value="id"
+              menu-icon="mdi-chevron-down"
           ></v-select>
         </div>
         <div class="form-group">
@@ -135,9 +149,11 @@ onMounted(() => {
               required
               placeholder="Chọn Quận/Huyện"
               variant="outlined"
-              item-text="name"
+              hide-details
+              item-title="name"
               item-value="id"
-              @change="getWards(form.district_id)"
+              menu-icon="mdi-chevron-down"
+              @update:model-value="getWards(form.district_id)"
           ></v-select>
         </div>
         <div class="form-group">
@@ -148,17 +164,25 @@ onMounted(() => {
               required
               placeholder="Chọn thành phố"
               variant="outlined"
-              item-text="name"
+              hide-details
+              item-title="name"
               item-value="id"
-              @change="getDistricts(form.province_id)"
+              menu-icon="mdi-chevron-down"
+              @update:model-value="getDistricts(form.province_id)"
           ></v-select>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-checkbox-box">
+
+      <div class="form-row justify-space-between">
+        <label class="form-checkbox-label">
           <input type="checkbox" class="form-checkbox" v-model="confirmSecurity">
-          <label @click="confirmSecurity = !confirmSecurity">Tôi đã đọc và đồng ý với <span class="form-checkbox--label-highlight">Chính sách bảo mật thông tin</span>></label>
-        </div>
+          <span>
+            Tôi đã đọc và đồng ý với
+            <span class="form-checkbox--label-highlight" @click="confirmSecurity = !confirmSecurity"
+              >Chính sách bảo mật thông tin
+            </span>
+          </span>
+        </label>
         <button class="btn-submit">Đăng ký ngay</button>
       </div>
     </v-form>
@@ -166,9 +190,48 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.form-register-wrapper {
+  padding-right: 65px;
+}
+
 .form-register-title {
   font-size: 1.5625rem;
   margin-bottom: 1.25rem;
   text-align: center;
+}
+
+.form-row {
+  display: flex;
+  column-gap: 1.5rem;
+  margin-bottom: 27px;
+}
+
+.form-row:last-child {
+  margin-bottom: 0;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.require::after {
+  content: '*';
+  color: var(--main-color);
+  margin-left: .25rem;
+}
+
+.form-checkbox-label {
+  display: flex;
+  column-gap: 1rem;
+  align-items: center;
+}
+
+.form-checkbox--label-highlight {
+  color: var(--main-color);
+}
+
+.form-checkbox-label span {
+  cursor: pointer;
+  user-select: none;
 }
 </style>
